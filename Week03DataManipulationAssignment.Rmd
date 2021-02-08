@@ -80,14 +80,27 @@ Examine the dataset and answer the following questions. Enter any code you use i
 
 * How many variables are in the dataset?
 
-    + Answer:
+    + Answer:11
     
 * List each variable and the level of measurement. Note if there are any issues you see with the data in that variable. (The first one is done for you.)
 
     + sex - nominal, no issues noted
-    
+  #Answer
+    Variables=11
++ Sex - nominal, no issues noted
++ Research - Nominal, no issues noted
++ height - ratio, no issues noted
++ weight - ratio, no issues noted
++ lvst1 - ordinal, no issues noted
++ lvst2 - ordinal, no issues noted
++ lvst3 - ordinal, no issues noted
++ lvst4 - ordinal, no issues noted
++ frst1 - ordinal, no issues noted
++ frst2 - ordinal, no issues noted
++ frst3 - ordinal, no issues noted
 ```{r, eval=FALSE}
-
+View(dataset)
+head(dataset)
 ```
 
 ## Calculate a new column
@@ -95,10 +108,11 @@ The dataset includes variables for height and weight. Calculate the BMI for each
 
 * What level of measurement is the new bmi variable?
 
-    + Answer: 
+    + Answer: ratio
 
 ```{r}
-dataset <- dataset %>% mutate(bmi = round(weight/(height/100)^2,1)) 
+dataset <- dataset %>% mutate(bmi = round(weight/(height/100)^2,1))
+head(dataset)
 
 ```
 
@@ -109,7 +123,7 @@ The Love of Statistics Scale consists of 4 questions rated on a scale of 1-5. Be
 
 * What level of measurement is the new lvst4reverse variable?
 
-    + Answer: 
+    + Answer: Ordinal
     
 ```{r}
 # The line below is how I first reverse coded the variable. It seemed to work, but I later found some problems with the z-scores.
@@ -120,6 +134,7 @@ The Love of Statistics Scale consists of 4 questions rated on a scale of 1-5. Be
 
 # The line below correctly reverse coded the lvst4 variable.
 dataset <- dataset %>% mutate(lvst4reverse = 6 - as.numeric(lvst4))
+
 ```
 
 ## Score the Love of Statistics Scale instrument
@@ -127,10 +142,10 @@ Run the following code block to calculate a final score for the Love of Statisti
 
 * What level of measurement is the new LOSS_total
 
-    + Answer: 
+    + Answer: interval
 
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 dataset <- dataset %>% mutate(LOSS_total = as.numeric(lvst1) + as.numeric(lvst2) + as.numeric(lvst3) + as.numeric(lvst4reverse))
 ```
 
@@ -148,6 +163,10 @@ Note any issues with the data in the new variables. Place code you use to examin
 
     
 ```{r}
+summary(dataset$LOSS_total)
+summary(dataset$FOSS_total)
+table(dataset$LOSS_total)
+table(dataset$FOSS_total)
 
 ```
 
@@ -166,17 +185,17 @@ Z-scores are useful for a number of reasons. Since z-scores are unit free (the u
 
 * How do the z-scores compare between the sum scores and the mean scores?
 
-    + Answer: 
+    + Answer: It is okay for the mean to have missing value numbers. The sum needs to have the same number of answers for each variable present.
     
 * Are there any z-scores greater than 2 in the LOSS and FOSS variables? How many?
 
-    + LOSS z-score > 2:
-    + FOSS z-score > 2:
+    + LOSS z-score > 2:4
+    + FOSS z-score > 2:4
     
 * What does it mean if a z-score is positive or negative?
 
-    + positive:
-    + negative:
+    + positive:its above the mean
+    + negative:its below the mean
     
 ```{r}
 dataset <- dataset %>% mutate(LOSS_total_z = scale(LOSS_total))

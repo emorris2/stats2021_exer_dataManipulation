@@ -206,7 +206,7 @@ dataset <- dataset %>% mutate(FOSS_mean_z = scale(FOSS_mean))
 ```
 
 ## Save your data for next week
-```{r}
+```{r, eval=FALSE}
 rio::export(dataset,"Week4.rds")
 ```
 
